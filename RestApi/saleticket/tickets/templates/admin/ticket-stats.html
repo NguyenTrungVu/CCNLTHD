@@ -1,0 +1,10 @@
+{% extends 'admin/base_site.html' %}
+{% block content %}
+<h1>THỐNG KÊ THÔNG TIN CÁC CHUYẾN ĐI</h1>
+<h2>Số lượng tuyến đi: {{ tour_count }}</h2>
+<ul>
+    {% for s in tour_stats %}
+    <li><strong>Tuyến {{ s.name }}</strong> có: {{ s.tour_count }} chuyến đi</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from ckeditor.fields import RichTextField
 
+
 class User(AbstractUser):
 	avatar = models.ImageField(null=False, upload_to='users/%Y/%m')
 
@@ -32,9 +33,10 @@ class Tour(ModelBase):
 	subject = models.CharField(max_length=50, null=False)
 	departed_date = models.DateField(max_length=50, null=False)
 	departed_time = models.TimeField(max_length=30, null=False)
-	arrived_time = models.TimeField(max_length=30, null=True)
+	arrived_time = models.TimeField(max_length=30, null=True, blank=True)
 	price = models.DecimalField(default=0, null=False, max_digits=20, decimal_places=1)
 	route = models.ForeignKey(Route, related_name='tour', related_query_name='my_tour', on_delete=models.CASCADE)
+	# user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.subject
@@ -54,13 +56,14 @@ class Bus(ModelBase):
 	license_plates = models.CharField(max_length=20, unique=True)
 	seat_total = models.IntegerField(null=False, default=30)
 	kind_bus = models.ForeignKey(Category, null=True, related_name='kind', related_query_name='kind_bus', on_delete=models.SET_NULL)
-	tags = models.ManyToManyField('Tag', blank=True, related_name='buses')
 
 
 class Ticket(ModelBase):
 	name = models.CharField(max_length=50, unique=True)
 	tour = models.ForeignKey(Tour, blank=False, related_name='ticket', related_query_name='my_ticket', on_delete=models.CASCADE)
 	passenger = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
+	bus = models.ForeignKey(Bus, blank=False, on_delete=models.CASCADE)
+	tags = models.ManyToManyField('Tag', blank=True, related_name='ticket')
 
 	def __str__(self):
 		return self.name
@@ -71,6 +74,7 @@ class DetailTour(ModelBase):
 	empty_seat = models.IntegerField(null=True)
 	booked_seat = models.IntegerField(null=True)
 	tour = models.ForeignKey(Tour, related_name='detail_tour', blank=False, on_delete=models.CASCADE)
+	# user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
 
 class DetailTicket(ModelBase):
@@ -84,4 +88,13 @@ class Tag(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+class Comment(ModelBase):
+	content = models.TextField()
+	tour = models.ForeignKey(Tour, related_name='comments', on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.content
 # Create your models here.

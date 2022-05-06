@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Route, Tour, User, Bus, Category, Tag
+from django.db.models import Count
+from django.template.response import TemplateResponse
+
+from .models import Route, Tour, User, Bus, Category, Tag, Ticket
+from django.urls import path
 
 
 class TourAdmin(admin.ModelAdmin):
@@ -28,22 +32,40 @@ class BusInline(admin.StackedInline):
 	pk_name = 'kind_bus'
 
 
-class BusTagInlineAdmin(admin.TabularInline):
-	model = Bus.tags.through
+class TicketTagInlineAdmin(admin.TabularInline):
+	model = Ticket.tags.through
 
 
 class TagAdmin(admin.ModelAdmin):
-	inlines = [BusTagInlineAdmin, ]
+	inlines = [TicketTagInlineAdmin, ]
 
 
 class CategoryAdmin(admin.ModelAdmin):
 	inlines = [BusInline, ]
 
 
+class TicketAdminSite(admin.AdminSite):
+	site_header = 'HỆ THỐNG QUẢN LÝ VÉ XE'
+
+	def get_urls(self):
+		return [
+			path('tour-stats/', self.tour_stats)
+		] + super().get_urls()
+
+	def tour_stats(self, request):
+		tour_count = Route.objects.filter(active=True).count()
+		stats = Route.objects.annotate(tour_count=Count('my_tour')).values('id', 'name', 'tour_count')
+		return TemplateResponse(request, 'admin/ticket-stats.html', {
+			'tour_count': tour_count,
+			'tour_stats': stats
+		})
+
+
+admin_site = TicketAdminSite(name='myadmin')
 # Register your models here.
-admin.site.register(Route, RouteAdmin)
-admin.site.register(Tour, TourAdmin)
-admin.site.register(User)
-admin.site.register(Bus, BusAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Tag)
+admin_site.register(Route, RouteAdmin)
+admin_site.register(Tour, TourAdmin)
+admin_site.register(User)
+admin_site.register(Bus, BusAdmin)
+admin_site.register(Category, CategoryAdmin)
+admin_site.register(Tag)

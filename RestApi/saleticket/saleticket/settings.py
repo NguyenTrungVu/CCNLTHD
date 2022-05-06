@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'tickets.apps.TicketsConfig',
     'drf_yasg',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'rest_framework',
+    'debug_toolbar',
 ]
-
+STATIC_URL = '/static/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'saleticket.urls'
@@ -133,3 +136,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
+

@@ -14,11 +14,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import ckeditor_uploader
+import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+from tickets.admin import admin_site
 
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Ticket API",
+        default_version='v1',
+        description="APIs for TicketsApp",
+        contact=openapi.Contact(email="1951052244vu@ou.edu.vn"),
+        license=openapi.License(name="Nguyễn Trung Vũ @2022"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 urlpatterns = [
     path('', include('tickets.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('__debug__/', include(debug_toolbar.urls))
 ]
