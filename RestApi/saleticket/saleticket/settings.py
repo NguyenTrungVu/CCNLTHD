@@ -43,7 +43,15 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'rest_framework',
     'debug_toolbar',
+    'oauth2_provider'
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
 STATIC_URL = '/static/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

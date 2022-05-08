@@ -7,7 +7,8 @@ router = routers.DefaultRouter()
 router.register(prefix='routes', viewset=views.RouteViewSet, basename='route')
 router.register(prefix='tours', viewset=views.TourViewSet, basename='tour')
 router.register(prefix='tickets', viewset=views.TicketViewSet, basename='ticket')
-
+router.register(prefix='users', viewset=views.UserViewSet, basename='user')
+router.register(prefix='comments', viewset=views.CommentViewSet, basename='comment')
 urlpatterns = [
     path('', include(router.urls)),
 
