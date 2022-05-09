@@ -43,7 +43,7 @@ class DetailTicketSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = DetailTicket
-		fields = ['seat_position', 'tags', 'ticket']
+		fields = ['id', 'seat_position', 'tags', 'ticket']
 
 
 class UserSerializer(serializers.ModelSerializer):

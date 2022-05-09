@@ -13,7 +13,6 @@ from .serializers import (RouteSerializer,
                           DetailTicketSerializer, CreateCommentSerializer, CommentSerializer,
                           )
 
-
 from .paginators import TicketPaginator
 from drf_yasg.utils import swagger_auto_schema
 from .perms import CommentOwnerPerms
@@ -90,23 +89,20 @@ class TourViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
 
 class CommentViewSet(viewsets.ViewSet, generics.CreateAPIView,
                      generics.UpdateAPIView, generics.DestroyAPIView):
-    queryset = Comment.objects.filter(active=True)
-    serializer_class = CreateCommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
+	queryset = Comment.objects.filter(active=True)
+	serializer_class = CreateCommentSerializer
+	permission_classes = [permissions.IsAuthenticated]
 
-    def get_permissions(self):
-        if self.action in ['update', 'destroy']:
-            return [CommentOwnerPerms()]
+	def get_permissions(self):
+		if self.action in ['update', 'destroy']:
+			return [CommentOwnerPerms()]
 
-        return [permissions.IsAuthenticated()]
+		return [permissions.IsAuthenticated()]
 
 
-class TicketViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+class TicketViewSet(viewsets.ViewSet, generics.CreateAPIView):
 	queryset = Ticket.objects.filter(active=True)
 	serializer_class = DetailTicketSerializer
-
-	# @action(methods=['post'], detail=True, url_path="")
-	# def add
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
@@ -121,8 +117,8 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
 
 	@action(methods=['get'], url_path="current-user", detail=False)
 	def current_user(self, request):
-	    return Response(self.serializer_class(request.user, context={'request': request}).data,
-	                    status=status.HTTP_200_OK)
+		return Response(self.serializer_class(request.user, context={'request': request}).data,
+		                status=status.HTTP_200_OK)
 
 
 def index(request):

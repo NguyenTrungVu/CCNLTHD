@@ -36,7 +36,7 @@ class Tour(ModelBase):
 	arrived_time = models.TimeField(max_length=30, null=True, blank=True)
 	price = models.DecimalField(default=0, null=False, max_digits=20, decimal_places=1)
 	route = models.ForeignKey(Route, related_name='tour', related_query_name='my_tour', on_delete=models.CASCADE)
-	# user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+
 
 	def __str__(self):
 		return self.subject

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.template.smartif import prefix
 from django.urls import path, include
 from . import views
 from rest_framework import routers
@@ -11,5 +12,4 @@ router.register(prefix='users', viewset=views.UserViewSet, basename='user')
 router.register(prefix='comments', viewset=views.CommentViewSet, basename='comment')
 urlpatterns = [
     path('', include(router.urls)),
-
 ]
