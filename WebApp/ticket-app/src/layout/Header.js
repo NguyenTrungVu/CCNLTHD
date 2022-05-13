@@ -1,0 +1,67 @@
+
+import { useContext, useState } from "react"
+import { Container, Form, FormControl, Nav, Navbar, Button } from "react-bootstrap"
+import { useNavigate } from "react-router"
+import { Link } from "react-router-dom"
+import { UserContext } from "../App"
+
+
+const Header = () => {
+    const [kw, setKw] = useState("")
+    const nav = useNavigate()
+    const [user, dispatch] = useContext(UserContext)
+
+    const search = (event) => {
+        event.preventDefault()
+
+        nav(`/?kw=${kw}`)
+    }
+    const logout = (evt) => {
+        evt.preventDefault()
+        dispatch({"type": "logout"})
+    }
+    let btn = <>
+        <Link to="/login" className="nav-link text-info">Dang nhap</Link>
+        <Link to="/register" className="nav-link text-danger">Dang ky</Link>
+    </>
+    if (user != null)
+        btn = <>
+            <Link to="/" className="nav-link text-danger">{user.username}</Link>
+            <a href="#" onClick={logout} className="nav-link text-danger">Dang xuat</a>
+        </>
+
+    return (
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Container>
+                <Navbar.Brand href="#home">TuVuBus</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="me-auto">
+                    <Nav.Link href="#features">Trang Chu</Nav.Link>
+                    <Nav.Link href="#features">Về Chúng Tôi</Nav.Link>
+                    <Form className="d-flex" onSubmit={search}>
+                    <FormControl
+                        type="search"
+                        value={kw}
+                        onChange={event => setKw(event.target.value)}
+                        placeholder="Tu khoa..."
+                        className="me-2"
+                        aria-label="Search" />
+                    <Button type="submit" variant="outline-success">Tim</Button>
+                </Form>
+                    
+                    </Nav>
+                    <Nav>{btn}</Nav>
+                    {/* <Nav>
+                    <Nav.Link eventKey={2}>
+                    <Link to="/login" className="nav-link text-danger">Dang nhap</Link>
+                    
+                    
+                    </Nav.Link> */}
+                    {/* </Nav> */}
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    )
+}
+export default Header

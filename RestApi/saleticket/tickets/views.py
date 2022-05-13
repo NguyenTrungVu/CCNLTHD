@@ -26,18 +26,25 @@ class RouteViewSet(viewsets.ViewSet, generics.ListAPIView):
 		r = self.queryset
 		kw = self.request.query_params.get('kw')
 		if kw:
-			r = r.filter(name__icontains=kw)
+			r = r.filter(departed_place__icontains=kw)
 
 		return r
 
+	@swagger_auto_schema(
+		operation_description='Get the lessons of a course',
+		responses={
+			status.HTTP_200_OK: TicketSerializer()
+		}
+	)
 	@action(methods=['get'], detail=True, url_path='tours')
-	def get_route(self, request, pk):
-
-		tours = Route.objects.get(pk=pk).tour.filter(active=True)
+	def get_tour(self, request, pk):
+		route = self.get_object()
+		tours = route.tour.filter(active=True)
+		# tours = Route.objects.get(pk=pk).tour.filter(active=True)
 
 		kw = request.query_params.get('kw')
 		if kw:
-			tours = tours.filter(departed_place=kw)
+			tours = tours.filter(subject__icontains=kw)
 
 		return Response(data=TourSerializer(tours, many=True, context={'request': request}).data,
 		                status=status.HTTP_200_OK)
@@ -102,7 +109,7 @@ class CommentViewSet(viewsets.ViewSet, generics.CreateAPIView,
 
 class TicketViewSet(viewsets.ViewSet, generics.CreateAPIView):
 	queryset = Ticket.objects.filter(active=True)
-	serializer_class = DetailTicketSerializer
+	serializer_class = TicketSerializer
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):

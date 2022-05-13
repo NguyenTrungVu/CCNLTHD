@@ -19,14 +19,14 @@ class ModelBase(models.Model):
 
 
 class Route(ModelBase):
-	name = models.CharField(max_length=50, unique=True)
+	subject = models.CharField(max_length=50, unique=True)
 	departed_place = models.CharField(max_length=50, null=False)
 	arrived_place = models.CharField(max_length=50, null=False)
 	distance = models.CharField(max_length=50, null=False)
 	time_duration = models.CharField(max_length=50, null=False)
 
 	def __str__(self):
-		return self.name
+		return self.subject
 
 
 class Tour(ModelBase):

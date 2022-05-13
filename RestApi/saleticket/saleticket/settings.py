@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'rest_framework',
     'debug_toolbar',
-    'oauth2_provider'
+    'oauth2_provider',
+    'corsheaders'
 ]
 
 
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'saleticket.urls'
@@ -148,3 +150,4 @@ INTERNAL_IPS = [
     '127.0.0.1'
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
