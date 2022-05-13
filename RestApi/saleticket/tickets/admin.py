@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.db.models import Count
 from django.template.response import TemplateResponse
+from django.utils.safestring import mark_safe
 
 from .models import Route, Tour, User, Bus, Category, Tag, Ticket
 from django.urls import path
@@ -10,6 +11,8 @@ class TourAdmin(admin.ModelAdmin):
 	list_display = ["id", "active", "subject", "departed_date", "departed_time", "price", ]
 	list_filter = ["subject", "departed_date", "price"]
 	search_fields = ["subject"]
+
+
 
 
 class TourInline(admin.StackedInline):

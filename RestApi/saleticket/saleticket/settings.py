@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 MEDIA_ROOT = '%s/tickets/static/' % BASE_DIR
-CKEDITOR_UPLOAD_PATH = "images/tours/"
+CKEDITOR_UPLOAD_PATH = "images/routes/"
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,6 +53,10 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
+}
+
 STATIC_URL = '/static/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -10,15 +10,16 @@ const Login = () => {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [user, dispatch] = useContext(UserContext)
+    const [ermg, setErmg] = useState(null)
 
     const login = async (evt) => {
         evt.preventDefault() 
-        
-        const res = await Api.post(endpoints['login'], {
+        try {
+            const res = await Api.post(endpoints['login'], {
             'username': username,
             'password': password,
-            'client_id': '',
-            'client_secret': '',
+            'client_id': 'ctIXmPOAprPeaJbULFaP9p6RpRMAZoN6gPBD04UT',
+            'client_secret': 'xitlBzOkBTvRF6Q5BlkOvGnDzpdsQ837Wo4dIPQXbeP3fw9cwh5xP9C4s1Fvhulgh3JdcyPXhRIWWnnkR6mtDYqNis7ZghcmdG8EaK7XU722XtYby00d6T2YRZH4ncDb',
             'grant_type': 'password'
         })
 
@@ -32,8 +33,12 @@ const Login = () => {
             'type': 'login',
             'payload': user.data
         })
+        } catch (error) {
+            console.info(error)
+            setErmg('Username hoac password KHONG chinh xac!!!')
+        }
+        
     }
-
 
     if (user != null)
         return <Navigate to="/" />

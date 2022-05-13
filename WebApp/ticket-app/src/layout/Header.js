@@ -1,6 +1,6 @@
 
 import { useContext, useState } from "react"
-import { Container, Form, FormControl, Nav, Navbar, Button } from "react-bootstrap"
+import { Container, Form, FormControl, Nav, Navbar, Button, Image } from "react-bootstrap"
 import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 import { UserContext } from "../App"
@@ -24,10 +24,13 @@ const Header = () => {
         <Link to="/login" className="nav-link text-info">Dang nhap</Link>
         <Link to="/register" className="nav-link text-danger">Dang ky</Link>
     </>
+    // let default_avatar = ''
     if (user != null)
         btn = <>
             <Link to="/" className="nav-link text-danger">{user.username}</Link>
-            <a href="#" onClick={logout} className="nav-link text-danger">Dang xuat</a>
+            {/* {user.avatar === null && <Image src={default_avatar} width={40} height={40} style={{boderRadius: 40}}/>} */}
+            {user.avatar !== null && <Image src={user.avatar} width={40} height={40} style={{boderRadius: 40}}/>}
+            <a href="/" onClick={logout} className="nav-link text-danger">Dang xuat</a>
         </>
 
     return (

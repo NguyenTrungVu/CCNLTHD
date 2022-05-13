@@ -24,6 +24,7 @@ class Route(ModelBase):
 	arrived_place = models.CharField(max_length=50, null=False)
 	distance = models.CharField(max_length=50, null=False)
 	time_duration = models.CharField(max_length=50, null=False)
+	image = models.ImageField(null=True, blank=True, upload_to='routes/%Y/%m')
 
 	def __str__(self):
 		return self.subject
