@@ -27,9 +27,10 @@ const Header = () => {
     // let default_avatar = ''
     if (user != null)
         btn = <>
+            {user.avatar !== null && <Image src={user.avatar} width={40} height={40} style={{boderRadius: 40}}/>}
             <Link to="/" className="nav-link text-danger">{user.username}</Link>
             {/* {user.avatar === null && <Image src={default_avatar} width={40} height={40} style={{boderRadius: 40}}/>} */}
-            {user.avatar !== null && <Image src={user.avatar} width={40} height={40} style={{boderRadius: 40}}/>}
+            
             <a href="/" onClick={logout} className="nav-link text-danger">Dang xuat</a>
         </>
 

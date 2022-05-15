@@ -16,7 +16,7 @@ export const authApi = () => {
     return axios.create({
         baseURL: "http://127.0.0.1:8000/",
         headers: {
-            'Authorization': `Beaser ${cookies.load('token')}`
+            'Authorization': `Bearer ${cookies.load('token')}`
         }
     })
 }

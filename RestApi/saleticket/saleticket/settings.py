@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'corsheaders'
 ]
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
@@ -57,6 +56,11 @@ OAUTH2_PROVIDER = {
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
 }
 
+
+OAUTH2_INFO = {
+    "client_id": "MrmwvkLZ1SFrGGMgjtuZ2mBQ35PyjuC0n14ItyZd",
+    "client_secret": "DTTA4cvat58MCM8qN5cpid0wUxM4ffFDFCWTT0enhZ6i5rJbIUusGaFKv87HjolOL1GH20NAEXDevO9kTa781zdUkkQ1RqXb9WKVIfXyqcZs44Thm4BK9JZWfYqkD1RS"
+}
 STATIC_URL = '/static/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -155,3 +159,4 @@ INTERNAL_IPS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+

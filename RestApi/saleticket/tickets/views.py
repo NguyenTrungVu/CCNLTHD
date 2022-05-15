@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import viewsets, generics, status, permissions
 from rest_framework.decorators import action
+from rest_framework.views import APIView
+
 from .models import Route, Tour, Ticket, Bus, User, Comment
 from .serializers import (RouteSerializer,
                           TourSerializer,
@@ -16,6 +18,7 @@ from .serializers import (RouteSerializer,
 from .paginators import TicketPaginator
 from drf_yasg.utils import swagger_auto_schema
 from .perms import CommentOwnerPerms
+from django.conf import settings
 
 
 class RouteViewSet(viewsets.ViewSet, generics.ListAPIView):
@@ -112,20 +115,25 @@ class TicketViewSet(viewsets.ViewSet, generics.CreateAPIView):
 	serializer_class = TicketSerializer
 
 
-class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
 	queryset = User.objects.filter(is_active=True)
 	serializer_class = UserSerializer
 
 	def get_permissions(self):
-		if self.action == 'current_user':
+		if self.action == 'get_current_user':
 			return [permissions.IsAuthenticated()]
 
 		return [permissions.AllowAny()]
 
 	@action(methods=['get'], url_path="current-user", detail=False)
-	def current_user(self, request):
+	def get_current_user(self, request):
 		return Response(self.serializer_class(request.user, context={'request': request}).data,
 		                status=status.HTTP_200_OK)
+
+
+# class AuthInfo(APIView):
+# 	def get(self):
+# 		return Response(se)
 
 
 def index(request):

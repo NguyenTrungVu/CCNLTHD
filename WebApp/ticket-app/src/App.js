@@ -11,12 +11,12 @@ import Tour from './components/Tour';
 import TourDetail from './components/TourDetail';
 import Login from './components/Login';
 import Register from './components/Register';
-
+import cookies from 'react-cookies'
 
 export const UserContext = createContext()
 
 function App() {
-  const [user, dispatch] = useReducer(myReducer)
+  const [user, dispatch] = useReducer(myReducer, cookies.load('current-user'))
   return (
     <BrowserRouter>
     <UserContext.Provider value={[user, dispatch]}>

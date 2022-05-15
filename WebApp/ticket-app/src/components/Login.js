@@ -18,8 +18,8 @@ const Login = () => {
             const res = await Api.post(endpoints['login'], {
             'username': username,
             'password': password,
-            'client_id': 'ctIXmPOAprPeaJbULFaP9p6RpRMAZoN6gPBD04UT',
-            'client_secret': 'xitlBzOkBTvRF6Q5BlkOvGnDzpdsQ837Wo4dIPQXbeP3fw9cwh5xP9C4s1Fvhulgh3JdcyPXhRIWWnnkR6mtDYqNis7ZghcmdG8EaK7XU722XtYby00d6T2YRZH4ncDb',
+            'client_id': 'MrmwvkLZ1SFrGGMgjtuZ2mBQ35PyjuC0n14ItyZd',
+            'client_secret': 'DTTA4cvat58MCM8qN5cpid0wUxM4ffFDFCWTT0enhZ6i5rJbIUusGaFKv87HjolOL1GH20NAEXDevO9kTa781zdUkkQ1RqXb9WKVIfXyqcZs44Thm4BK9JZWfYqkD1RS',
             'grant_type': 'password'
         })
 
@@ -27,8 +27,9 @@ const Login = () => {
         console.info(res.data)
         cookies.save('token', res.data.access_token)
 
-        const user = await authApi().get(endpoints['current-user'])
+        const user = await authApi().get(endpoints['current_user'])
         console.info(user.data)
+        cookies.save('user', user.data)
         dispatch({
             'type': 'login',
             'payload': user.data
