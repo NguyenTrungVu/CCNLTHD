@@ -4,7 +4,7 @@ import cookies from 'react-cookies'
 export const endpoints = {
     "routes": "/routes/",
     "tours": (routeId) => `/routes/${routeId}/tours`,
-    "tour-detail": (tourId) => `/tours/${tourId}`,
+    "tour-detail": (tourId) => `/tours/${tourId}/tour-detail/`,
     'tour-comments': (tourId) => `tours/${tourId}/comments/`,
     'comments': '/comments/',
     'users': '/users/',

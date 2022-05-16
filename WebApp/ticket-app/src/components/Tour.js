@@ -29,15 +29,14 @@ const Tour  = () => {
             <Row>
                 {tours.map(c => {
                     return (
-                        <Card >
+                        <Card style={{margin:10, padding:10}} >
                             <Item id={c.id} subject={c.subject} isTour={true}/>
                             <Card.Header as="h5">{c.departed_time}</Card.Header>
                             <Card.Body>
                                 <Card.Title>{c.price}</Card.Title>
-                                <Card.Text>
-                                    
+                                <Card.Text>  
+                                     
                                 </Card.Text>
-                                <Link to={url} >Chi tiết!</Link>
                             </Card.Body>
                         </Card> 
                     )

@@ -1,5 +1,6 @@
+
 from rest_framework import serializers
-from .models import Route, Tour, Bus, DetailTour, DetailTicket, Ticket, User, Comment, Tag
+from .models import Route, Tour, Bus, DetailTour, Ticket, User, Comment, Tag
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -36,14 +37,6 @@ class TicketSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Ticket
 		fields = ['id', 'tour', 'passenger', 'bus']
-
-
-class DetailTicketSerializer(serializers.ModelSerializer):
-	tags = TagSerializer(many=True)
-
-	class Meta:
-		model = DetailTicket
-		fields = ['id', 'seat_position', 'tags', 'ticket']
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -37,7 +37,7 @@ class Tour(ModelBase):
 	arrived_time = models.TimeField(max_length=30, null=True, blank=True)
 	price = models.DecimalField(default=0, null=False, max_digits=20, decimal_places=1)
 	route = models.ForeignKey(Route, related_name='tour', related_query_name='my_tour', on_delete=models.CASCADE)
-
+	user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.subject
@@ -65,6 +65,8 @@ class Ticket(ModelBase):
 	passenger = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
 	bus = models.ForeignKey(Bus, blank=False, on_delete=models.CASCADE)
 	tags = models.ManyToManyField('Tag', blank=True, related_name='ticket')
+	description = models.CharField(max_length=255, null=True)
+	seat_position = models.CharField(max_length=50, null=True)
 
 	def __str__(self):
 		return self.name
@@ -76,12 +78,6 @@ class DetailTour(ModelBase):
 	booked_seat = models.IntegerField(null=True)
 	tour = models.ForeignKey(Tour, related_name='detail_tour', blank=False, on_delete=models.CASCADE)
 	# user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
-
-
-class DetailTicket(ModelBase):
-	description = models.CharField(max_length=255, null=True)
-	seat_position = models.CharField(max_length=50, null=False)
-	ticket = models.ForeignKey(Ticket, related_name='detail_ticket', blank=False, on_delete=models.CASCADE)
 
 
 class Tag(models.Model):

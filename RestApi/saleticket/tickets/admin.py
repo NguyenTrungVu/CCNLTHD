@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db.models import Count
 from django.template.response import TemplateResponse
-from django.utils.safestring import mark_safe
+from django.utils.html import mark_safe
 
 from .models import Route, Tour, User, Bus, Category, Tag, Ticket
 from django.urls import path
@@ -13,8 +13,6 @@ class TourAdmin(admin.ModelAdmin):
 	search_fields = ["subject"]
 
 
-
-
 class TourInline(admin.StackedInline):
 	model = Tour
 	pk_name = 'route'
@@ -22,6 +20,12 @@ class TourInline(admin.StackedInline):
 
 class RouteAdmin(admin.ModelAdmin):
 	inlines = [TourInline, ]
+	search_fields = ["subject"]
+	readonly_fields = ['avatar']
+
+	def avatar(self, obj):
+		if obj:
+			return mark_safe('<img src="/static/{url}" width="120" />'.format(url=obj.image.name))
 
 
 class BusAdmin(admin.ModelAdmin):
@@ -45,6 +49,11 @@ class TagAdmin(admin.ModelAdmin):
 
 class CategoryAdmin(admin.ModelAdmin):
 	inlines = [BusInline, ]
+
+
+class TicketsAdmin(admin.ModelAdmin):
+	model = Ticket
+	list_display = ["id", "active", "tour", "passenger", "bus"]
 
 
 class TicketAdminSite(admin.AdminSite):
@@ -72,3 +81,4 @@ admin_site.register(User)
 admin_site.register(Bus, BusAdmin)
 admin_site.register(Category, CategoryAdmin)
 admin_site.register(Tag)
+admin_site.register(Ticket, TicketsAdmin)

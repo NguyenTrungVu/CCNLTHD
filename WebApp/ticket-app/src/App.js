@@ -16,7 +16,7 @@ import cookies from 'react-cookies'
 export const UserContext = createContext()
 
 function App() {
-  const [user, dispatch] = useReducer(myReducer, cookies.load('current-user'))
+  const [user, dispatch] = useReducer(myReducer, cookies.load('current_user'))
   return (
     <BrowserRouter>
     <UserContext.Provider value={[user, dispatch]}>

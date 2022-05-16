@@ -12,7 +12,8 @@ from .serializers import (RouteSerializer,
                           TourSerializer,
                           TicketSerializer,
                           UserSerializer,
-                          DetailTicketSerializer, CreateCommentSerializer, CommentSerializer,
+                          CreateCommentSerializer, CommentSerializer,
+						  DetailTourSerializer
                           )
 
 from .paginators import TicketPaginator
@@ -95,6 +96,12 @@ class TourViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
 		comments = tour.comments.select_related('user').filter(active=True)
 
 		return Response(CommentSerializer(comments, many=True).data, status=status.HTTP_200_OK)
+
+	@action(methods=['get'], url_path='tour-detail', detail=True)
+	def get_tour_detail(self, request, pk):
+		tour_detail = Tour.objects.get(pk=pk).detail_tour.filter(active=True)
+
+		return Response(DetailTourSerializer(tour_detail, many=True).data, status=status.HTTP_200_OK)
 
 
 class CommentViewSet(viewsets.ViewSet, generics.CreateAPIView,

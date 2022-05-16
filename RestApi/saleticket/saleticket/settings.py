@@ -58,8 +58,8 @@ OAUTH2_PROVIDER = {
 
 
 OAUTH2_INFO = {
-    "client_id": "MrmwvkLZ1SFrGGMgjtuZ2mBQ35PyjuC0n14ItyZd",
-    "client_secret": "DTTA4cvat58MCM8qN5cpid0wUxM4ffFDFCWTT0enhZ6i5rJbIUusGaFKv87HjolOL1GH20NAEXDevO9kTa781zdUkkQ1RqXb9WKVIfXyqcZs44Thm4BK9JZWfYqkD1RS"
+    "client_id": "4VDHRETgYcRCEtZWU9RiNN2SJKfelNHFOpF3bYVi",
+    "client_secret": "Ohvq3hiKtGsPdYNzTG7oH4s3fi9bC5N0gHBwwDAylMGGhyN2KZy9Yo1wLZsIWuZxm8vx5td5i2RFBhlnJCCN2rVFZBTht1Zj0ERTCsoi8c7skkMeSCGzgxOZ5OpC83z8"
 }
 STATIC_URL = '/static/'
 MIDDLEWARE = [

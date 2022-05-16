@@ -31,9 +31,7 @@ const Home = () => {
         }
         loadRoutes()
     }, [q])
-    // const goToTour = () => {
-    //     nav(`/routes/${routes.id}/tours`)
-    // }
+  
 
     return(     
         <Container>
@@ -43,7 +41,7 @@ const Home = () => {
             
             <Row>
                 {routes.map(c => {
-                    // let url = `/routes/${c.id}/tours`
+                  
 
                     return ( 
                         <Col md={6} xs={12}>
