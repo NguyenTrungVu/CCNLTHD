@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
-import { Card, Container, Row, Spinner, Col } from "react-bootstrap"
+import { Card, Container, Row, Spinner, Col, Image } from "react-bootstrap"
 import { Link, useSearchParams } from "react-router-dom"
 import { useNavigate } from "react-router"
 import Api, { endpoints } from "../configs/Api"
 import Item from "../layout/Item"
 
 const Home = () => {
-
     const [routes, setRoutes] = useState([])
     const [q] = useSearchParams()
     const nav = useNavigate()
@@ -28,32 +27,47 @@ const Home = () => {
             }
             const res = await Api.get(`${endpoints['routes']}?${query}`)
             setRoutes(res.data)
+            console.info(res.data)
         }
         loadRoutes()
     }, [q])
-  
-
+    const myStyle = {
+        width: '100%',
+        height: '100%',
+        }
+       
+    // const goToTour = (c) => {
+    //     nav(`/routes/${c}/tours`)
+    // }
     return(     
         <Container>
-            <h1 className="text-center text-danger">CÁC TUYẾN ĐI PHỔ BIẾN</h1>
+            <h1 className="text-center text-danger" style ={{margin:20}}>CÁC TUYẾN ĐI PHỔ BIẾN</h1>
             
             {routes.length === 0 && <Spinner animation="grow" />}
             
-            <Row>
+            <Row >
                 {routes.map(c => {
                   
 
                     return ( 
-                        <Col md={6} xs={12}>
+                        <Col md={6} xs={12} style ={{marginBottom:20}}>
                             <Card >
-                                <Item id={c.id} subject={c.subject} />
-                                <Card.Body>
-                                    <Card.Title>Đi từ {c.departed_place} đến {c.arrived_place}</Card.Title>
-                                    <Card.Text>
-                                    Thời gian di chuyển: {c.time_duration}
-                                    </Card.Text>
-                                </Card.Body>
+                                <Row>
+                                    <Col md={5} xs={12}>
+                                        <Image src={c.image} fluid style={myStyle}/>
+                                    </Col>
+                                    <Col md={7} xs={12}>
+                                    <Item id={c.id} subject={c.subject} />
+                                    <Card.Body>
+                                        <Card.Title>Đi từ {c.departed_place} đến {c.arrived_place}</Card.Title>
+                                        <Card.Text>
+                                        Thời gian di chuyển: {c.time_duration}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    </Col>
+                                </Row>
                             </Card>
+                            
                         </Col>
                     )
                 })}
@@ -63,15 +77,3 @@ const Home = () => {
     )
 }
 export default Home 
-// <Col md={6} xs={12} >
-                            
-                        //     <Card border="primary" onClick={goToTour}>
-                        //         <Card.Header>{c.subject}</Card.Header>
-                        //         <Card.Body>
-                        //         <Card.Title>Đi từ {c.departed_place} đến {c.arrived_place}</Card.Title>
-                        //         <Card.Text>
-                        //             Thời gian di chuyển: {c.time_duration}
-                        //         </Card.Text>
-                        //         </Card.Body>
-                        //     </Card>
-                        // </Col>

@@ -4,6 +4,14 @@ from .models import Route, Tour, Bus, DetailTour, Ticket, User, Comment, Tag
 
 
 class RouteSerializer(serializers.ModelSerializer):
+	image = serializers.SerializerMethodField(source='image')
+
+	def get_image(self, obj):
+		request = self.context['request']
+		path = '/static/%s' % obj.image.name
+
+		return request.build_absolute_uri(path)
+
 	class Meta:
 		model = Route
 		fields = "__all__"
@@ -24,7 +32,7 @@ class TourSerializer(serializers.ModelSerializer):
 class DetailTourSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = DetailTour
-		fields = "__all__"
+		fields = ["description", "empty_seat", "booked_seat", "tour"]
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -36,7 +44,7 @@ class TagSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Ticket
-		fields = ['id', 'tour', 'passenger', 'bus']
+		fields = ['id', 'tour', 'passenger', 'bus', 'seat_position', 'description']
 
 
 class UserSerializer(serializers.ModelSerializer):

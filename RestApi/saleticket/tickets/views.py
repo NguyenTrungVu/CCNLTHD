@@ -22,7 +22,7 @@ from .perms import CommentOwnerPerms
 from django.conf import settings
 
 
-class RouteViewSet(viewsets.ViewSet, generics.ListAPIView):
+class RouteViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
 	queryset = Route.objects.filter(active=True)
 	serializer_class = RouteSerializer
 
@@ -32,6 +32,9 @@ class RouteViewSet(viewsets.ViewSet, generics.ListAPIView):
 		if kw:
 			r = r.filter(departed_place__icontains=kw)
 
+		pk = self.request.query_params.get("pk")
+		if pk:
+			r = r.filter(id=pk)
 		return r
 
 	@swagger_auto_schema(

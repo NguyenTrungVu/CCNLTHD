@@ -2,13 +2,12 @@ import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router"
 import Api, { authApi, endpoints } from "../configs/Api"
 import { UserContext } from '../App'
-import { Card, Col, Container, Form, Image, ListGroup, Row, Spinner } from "react-bootstrap"
+import { Card, Col, Container, Form, Image, ListGroup, Row, Spinner, Button } from "react-bootstrap"
 import Item from "../layout/Item"
-import Button from "@restart/ui/esm/Button"
 import Moment from "react-moment"
 
 const TourDetail = () => {
-    const[tourDetail, setTourDetail] = useState([])
+    const[tourDetail, setTourDetail] = useState(null)
     const[comments, setComments] = useState([])
     const{tourId} = useParams()
     const [user] = useContext(UserContext)
@@ -16,13 +15,14 @@ const TourDetail = () => {
     useEffect(() => {
         const loadTour = async () => {
             let res = null;
-            if (user != null) {
+            if(user !== null){
                 res = await authApi().get(endpoints['tour-comments'](tourId))
-            } else {
-                res = await Api.get(endpoints['tour-detail'](tourId))
             }
+            else
+                res = await Api.get(endpoints['tour-detail'](tourId))
             
             setTourDetail(res.data)
+            console.info(res.data)
         }
 
         loadTour()
@@ -30,36 +30,23 @@ const TourDetail = () => {
 
     useEffect(() => {
         const loadComments = async () => {
-            const res = await Api.get(endpoints['tour-comments'](tourId))
+               const res = await authApi().get(endpoints['tour-comments'](tourId))
             setComments(res.data)
         }
-
         loadComments()
     }, [comments])
-
+    
     return(
         <Container>
             <h1 className="text-center">Chi tiết chuyến đi  (chuyến: {tourId})</h1>
-
-            {tourDetail.length == 0 && <Spinner animation="grow" />}
-            
             <Row>
-                {tourDetail.map(c => {
-                    return (
-                        <Card >
-                            <Item id={c.id} subject={c.subject} isTour={true}/>
-                            <Card.Header as="h5">{c.departed_time}</Card.Header>
-                            <Card.Body>
-                                <Card.Title>{c.price}</Card.Title>
-                                <Card.Text>
-                                    
-                                </Card.Text>
-                               
-                            </Card.Body>
-                        </Card> 
-                    )
-                    
-                })}
+                <Col md={6} xs={12}>
+                    {/* <Card.Text>Giờ khởi hành: {tourDetail.departed_time}</Card.Text>
+                    <Card.Text>Giá chuyến đi: {tourDetail.price}</Card.Text> */}
+                </Col>
+                {/* <Col md={6} xs={12}>
+                    <Button type="submit" className="primary" >Chọn Chuyến Đi</Button>
+                </Col> */}
             </Row>
             <Row>
                 <Col>
