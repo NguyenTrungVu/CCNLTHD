@@ -88,10 +88,17 @@ class Tag(models.Model):
 
 
 class Comment(ModelBase):
-	content = models.TextField()
+	content = models.TextField(max_length=255, null=True)
 	tour = models.ForeignKey(Tour, related_name='comments', on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.content
+
+
+class Place(ModelBase):
+	name = models.TextField(max_length=50, null=False)
+
+	def __str__(self):
+		return self.name
 # Create your models here.

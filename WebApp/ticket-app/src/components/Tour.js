@@ -113,6 +113,7 @@ const Tour  = () => {
                     )
                     
                 })}
+                <Button style={{width: 100, alignItems: 'center'}} variant="primary" type="submit" onClick={()=> nav( "/")}>Quay Lại</Button>
             </Row>
             </Accordion>
         </Container>

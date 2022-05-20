@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Route, Tour, Bus, DetailTour, Ticket, User, Comment, Tag
+from .models import Route, Tour, Bus, DetailTour, Ticket, User, Comment, Tag, Place
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -89,3 +89,9 @@ class CommentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Comment
 		exclude = ['active']
+
+
+class PlaceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Place
+		fields = "__all__"

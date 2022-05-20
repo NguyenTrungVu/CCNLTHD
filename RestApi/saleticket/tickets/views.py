@@ -7,13 +7,13 @@ from rest_framework import viewsets, generics, status, permissions
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 
-from .models import Route, Tour, Ticket, Bus, User, Comment
+from .models import Route, Tour, Ticket, Bus, User, Comment, Place
 from .serializers import (RouteSerializer,
                           TourSerializer,
                           TicketSerializer,
                           UserSerializer,
                           CreateCommentSerializer, CommentSerializer,
-						  DetailTourSerializer
+						  DetailTourSerializer, PlaceSerializer
                           )
 
 from .paginators import TicketPaginator
@@ -144,7 +144,13 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 # class AuthInfo(APIView):
 # 	def get(self):
 # 		return Response(se)
+class PlaceViewSet(viewsets.ViewSet, generics.ListAPIView):
+	queryset = Place.objects.filter(active=True)
+	serializer_class = PlaceSerializer
 
+	def get_queryset(self):
+		r = self.queryset
+		return r
 
 def index(request):
 	return HttpResponse("hello")
