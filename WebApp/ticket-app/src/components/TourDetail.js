@@ -26,7 +26,7 @@ const TourDetail = () => {
                 res = await authApi().get(endpoints['tour-comments'](tourId))
             }
             else
-                res = await Api.get(endpoints['tour-detail'](tourId))
+                res = await Api.get(endpoints['tour-comments'](tourId))
             
             setTourDetail(res.data)
             console.info(res.data)
@@ -163,45 +163,9 @@ const TourDetail = () => {
                  </Row>
             </Card>
            
-            {/* <Row>
-                <Col>
-                    {user != null && <CommentForm tourId={tourId} comments={comments} setComments={setComments} />}
-                    <ListGroup>
-                        {comments.map(c => <ListGroup.Item>
-                            <Image src={c.user.avatar_view} fluid width="50" roundedCircle /> {c.content} - <Moment fromNow>{c.created_date}</Moment>
-                        </ListGroup.Item>)}
-                    </ListGroup>
-                </Col>
-            </Row> */}
+           
         </Container>
     )
     
 } 
-// const CommentForm = ({ tourId, comments, setComments }) => {
-//     const [content, setContent] = useState()
-//     const [user] = useContext(UserContext)
-
-//     const addComment = async (event) => {
-//         event.preventDefault()
-
-//         const res = await authApi().post(endpoints['comments'], {
-//             'content': content, 
-//             'tour': tourId,
-//             'user': user.id
-//         })
-
-//         setComments([...comments, res.data])
-// //     }
-//     return (
-//         // <Form onSubmit={addComment}>
-//         //     <Form.Group className="mb-3" controlId="formBasicEmail">
-//         //         <Form.Control type="text" value={content} onChange={(evt) => setContent(evt.target.value)} placeholder="Nhap binh luan" />
-//         //     </Form.Group>
-        
-//         //     <Button variant="primary" type="submit">
-//         //         Them binh luan
-//         //     </Button>
-//         // </Form>
-//     )
-// }
 export default TourDetail

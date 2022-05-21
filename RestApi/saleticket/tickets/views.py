@@ -68,7 +68,7 @@ class TourViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
 			t = t.filter(subject__icontains=kw)
 		de_time = self.request.query_params.get('departed_time')
 		if de_time:
-			t = t.filter(departed_time=de_time)
+			t = t.filter(departed_date=de_time)
 		k = self.request.query_params.get('k')
 		if k:
 			t = t.filter(route_id=k)
@@ -93,12 +93,28 @@ class TourViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
 		return Response(data=TicketSerializer(tickets, many=True, context={'request': request}).data,
 		                status=status.HTTP_200_OK)
 
+	def get_permissions(self):
+		if self.action == 'add_comments':
+			return [permissions.IsAuthenticated()]
+
+		return [permissions.AllowAny()]
+
+	@action(methods=['post'], url_path='add-comments', detail=True)
+	def add_comments(self, request, pk):
+		content = request.data.get('content')
+		if content:
+			c = Comment.objects.create(content=content, user=request.user, tour=self.get_object())
+			return Response(CreateCommentSerializer(c).data, status=status.HTTP_201_CREATED)
+
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+
 	@action(methods=['get'], url_path='comments', detail=True)
 	def get_comments(self, request, pk):
 		tour = self.get_object()
 		comments = tour.comments.select_related('user').filter(active=True)
-
-		return Response(CommentSerializer(comments, many=True).data, status=status.HTTP_200_OK)
+		comments = Comment.objects.order_by('-id')
+		return Response(CommentSerializer(comments, many=True, context={'request': request}).data,
+		                status=status.HTTP_200_OK)
 
 	@action(methods=['get'], url_path='tour-detail', detail=True)
 	def get_tour_detail(self, request, pk):
@@ -107,7 +123,7 @@ class TourViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
 		return Response(DetailTourSerializer(tour_detail, many=True).data, status=status.HTTP_200_OK)
 
 
-class CommentViewSet(viewsets.ViewSet, generics.CreateAPIView,
+class CommentViewSet(viewsets.ViewSet,
                      generics.UpdateAPIView, generics.DestroyAPIView):
 	queryset = Comment.objects.filter(active=True)
 	serializer_class = CreateCommentSerializer

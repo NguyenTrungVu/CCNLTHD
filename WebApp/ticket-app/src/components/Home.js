@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Card, Container, Row, Spinner, Col, Image, Carousel, Form, Button } from "react-bootstrap"
+import { Card, Container, Row, Spinner, Col, Image, Carousel, Form, Button, InputGroup, FormControl} from "react-bootstrap"
 import { Link, useSearchParams } from "react-router-dom"
 import { useNavigate } from "react-router"
 import Api, { endpoints } from "../configs/Api"
@@ -8,16 +8,21 @@ import sg from "../image/sg.jpeg"
 import dn from "../image/dn.jpeg"
 import dl from "../image/dl.jpeg"
 import Calendar from 'react-calendar';
-
+import 'react-calendar/dist/Calendar.css';
+import { DropdownButton } from "react-bootstrap"
+import { Dropdown } from "react-bootstrap"
+import moment from "moment"
 
 const Home = () => {
     const [routes, setRoutes] = useState([])
+    const [tours, setTours] = useState([])
     const [q] = useSearchParams()
     const nav = useNavigate()
     const [date, setDate] = useState(new Date());
     const [kw, setKw] = useState("")
     const [kw1, setKw1] = useState("")
     const [places, setPlaces] = useState([])
+    
 
     useEffect (() => {
         const loadRoutes = async () => {
@@ -44,25 +49,36 @@ const Home = () => {
         width: '100%',
         height: '100%',
         }
-    function unique(arr) {
-        var newArr = []
-        newArr = arr.filter(function (item) {
-            return newArr.includes(item) ? '' : newArr.push(item)
-        })
-        return newArr
-    }
+    useEffect(() => {
+        const loadTours = async () => { 
+            const res = await Api.get(endpoints['tour-time'])
+            setTours(res.data)
+            console.info(res.data)
+        }
+        loadTours()
+    }, [])
     const changeDate = date => {
         setDate(date)
     }
+    
+    let d = moment(date).format("DD/MM/YYYY")
+   
     const search = (event) => {
         event.preventDefault()
         let rid = ""
         routes.map(r =>{
-            if(r.departed_place===kw && r.arrived_place===kw1)
+            if(r.departed_place===kw && r.arrived_place===kw1){
                 rid = r.id
-            
+                tours.map(t =>{
+                    if(t.route = rid && t.departed_date===d){
+                         nav("/tours/")
+                    } 
+                    nav(`/routes/${rid}/tours`)  
+                })
+                
+            }  
         })
-        nav(`/routes/${rid}/tours`)
+        
     }
     useEffect(() => {
         const loadPlace = async () => {
@@ -119,15 +135,23 @@ const Home = () => {
                         <Form.Select aria-label="Default select example" onChange={(event) => setKw(event.target.value)}>
                             <option>Chọn nơi xuất phát</option>
                             {places.map(p =>{
-                                
                                 return(
                                     <option value={p.name} >{p.name}</option>
-                                )     
-                                        
+                                )           
                             })}
                         </Form.Select>
-                        
-                        
+                        <InputGroup className="mb-3" style={{marginTop:10}}>
+                            <FormControl aria-label="Text input with dropdown button" value={d} />
+                            <DropdownButton
+                            variant="outline-secondary"
+                            id="input-group-dropdown-2"
+                            align="end"
+                            >
+                                
+                            <Dropdown.Item><Calendar onChange={changeDate} value={date}/></Dropdown.Item>
+                            
+                            </DropdownButton>
+                        </InputGroup>
                         
                     </Col>
                     <Col md={4} xs={12}>
@@ -135,11 +159,9 @@ const Home = () => {
                         <Form.Select aria-label="Default select example" onChange={(event) => setKw1(event.target.value)}>
                             <option>Chọn nơi đến</option>
                             {places.map(p =>{
-                                        return(
-                                        
+                                        return( 
                                     <option value={p.name} >{p.name}</option>
-                                )     
-                                
+                                )  
                             })}
                         </Form.Select>
                     </Col>
@@ -150,13 +172,9 @@ const Home = () => {
             </Form>
            
             <h1 className="text-center text-danger" style ={{margin:20}}>CÁC TUYẾN ĐI PHỔ BIẾN</h1>
-            
             {routes.length === 0 && <Spinner animation="grow" />}
-            
             <Row >
                 {routes.map(c => {
-                  
-
                     return ( 
                         <Col md={6} xs={12} style ={{marginBottom:20}}>
                             <Card >
@@ -175,7 +193,6 @@ const Home = () => {
                                     </Col>
                                 </Row>
                             </Card>
-                            
                         </Col>
                     )
                 })}

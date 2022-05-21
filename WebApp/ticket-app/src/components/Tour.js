@@ -27,21 +27,7 @@ const Tour  = () => {
         loadRoutes()
     }, [])
 
-    // const goToDetail = (t) => {
-    //     // {tours.map(i =>{
-    //     //     if(i.id === t && i.isTour === true){
-    //     //         nav(`tours/${i.id}/tour-detail`)
-    //     //     } 
-    //     // })} 
-    //     nav(`tours/${t}/tour-detail`)  
-    // }
-
-    // const url = `tours/${tourId}/tour-detail`
-    // var r = new Object();
-    // if(routes.id === routeId){
-    //     r = routes
-    // }
-    // console.info(r.data)
+  
     function CustomToggle({ children, eventKey }) {
         const decoratedOnClick = useAccordionButton(eventKey, () =>
           console.log('totally custom!'),
@@ -76,6 +62,7 @@ const Tour  = () => {
                             <Card.Body>
                                 <Row>
                                     <Col md={6} xs={12}>
+                                        <Card.Text>Ngày khởi hành: {c.departed_date}</Card.Text>
                                         <Card.Text>Giờ khởi hành: {c.departed_time}</Card.Text>
                                         <Card.Text>Giá chuyến đi: {c.price}</Card.Text>
                                     </Col>
@@ -84,7 +71,9 @@ const Tour  = () => {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <CustomToggle eventKey={c.id} >Chi Tiết!</CustomToggle>
+                                    <Col md={6} xs={12}><CustomToggle eventKey={c.id} >Chi Tiết!</CustomToggle></Col>
+                                    <Col md={6} xs={12}><Button onClick={() =>nav(`/tours/${c.id}/comments/`)}>Phản hồi!</Button></Col>
+                                    
                                     <Accordion.Collapse eventKey={c.id}>
                                         <Row>
                                             <Col md={4} xs={12} style={{padding:1}}>

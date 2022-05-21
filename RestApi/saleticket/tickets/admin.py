@@ -3,7 +3,7 @@ from django.db.models import Count
 from django.template.response import TemplateResponse
 from django.utils.html import mark_safe
 
-from .models import Route, Tour, User, Bus, Category, Tag, Ticket, DetailTour, Place
+from .models import Route, Tour, User, Bus, Category, Tag, Ticket, DetailTour, Place, Comment
 from django.urls import path
 
 
@@ -80,6 +80,10 @@ class PlaceAdmin(admin.ModelAdmin):
 	list_display = ["id", "active", "name"]
 
 
+class CommentAdmin(admin.ModelAdmin):
+	list_display = ["id", "content", "tour", "user"]
+
+
 admin_site = TicketAdminSite(name='myadmin')
 # Register your models here.
 admin_site.register(Route, RouteAdmin)
@@ -91,3 +95,4 @@ admin_site.register(Tag)
 admin_site.register(Ticket, TicketsAdmin)
 admin_site.register(DetailTour, DetailTourAdmin)
 admin_site.register(Place, PlaceAdmin)
+admin_site.register(Comment, CommentAdmin)

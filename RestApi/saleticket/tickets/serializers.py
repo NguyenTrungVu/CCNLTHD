@@ -51,7 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
 	avatar = serializers.SerializerMethodField(source='avatar')
 
 	def get_avatar(self, obj):
-		request = self.context['request']
+		request = self.context.get('request')
 		if obj.avatar and not obj.avatar.name.startswith("/static"):
 			path = '/static/%s' % obj.avatar.name
 

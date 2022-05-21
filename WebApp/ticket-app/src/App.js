@@ -12,6 +12,7 @@ import TourDetail from './components/TourDetail';
 import Login from './components/Login';
 import Register from './components/Register';
 import cookies from 'react-cookies'
+import TourComment from './components/Comment';
 
 export const UserContext = createContext()
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/tours/:tourId/tour-detail" element={<TourDetail/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register/>}/>
+        <Route path="/tours/:tourId/comments/" element={<TourComment/>}/>
       </Routes>
       <Footer/>
       </UserContext.Provider>
